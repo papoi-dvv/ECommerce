@@ -1,0 +1,194 @@
+[
+    {
+        "id": 1,
+        "title": "Future Nostalgia",
+        "artist": "Dua Lipa",
+        "rating": 9,
+        "release_date": "2020-03-27",
+        "genre": "Pop"
+    },
+    {
+        "id": 2,
+        "title": "Thriller",
+        "artist": "Michael Jackson",
+        "rating": 10,
+        "release_date": "1982-11-30",
+        "genre": "Pop"
+    },
+    {
+        "id": 3,
+        "title": "Like a Prayer",
+        "artist": "Madonna",
+        "rating": 9,
+        "release_date": "1989-03-21",
+        "genre": "Pop"
+    },
+    {
+        "id": 4,
+        "title": "A Night at the Opera",
+        "artist": "Queen",
+        "rating": 10,
+        "release_date": "1975-11-21",
+        "genre": "Rock"
+    },
+    {
+        "id": 5,
+        "title": "Nevermind",
+        "artist": "Nirvana",
+        "rating": 10,
+        "release_date": "1991-09-24",
+        "genre": "Rock"
+    },
+    {
+        "id": 6,
+        "title": "Abbey Road",
+        "artist": "The Beatles",
+        "rating": 10,
+        "release_date": "1969-09-26",
+        "genre": "Rock"
+    },
+    {
+        "id": 7,
+        "title": "AM",
+        "artist": "Arctic Monkeys",
+        "rating": 9,
+        "release_date": "2013-09-09",
+        "genre": "Indie"
+    },
+    {
+        "id": 8,
+        "title": "Currents",
+        "artist": "Tame Impala",
+        "rating": 9,
+        "release_date": "2015-07-17",
+        "genre": "Indie"
+    },
+    {
+        "id": 9,
+        "title": "Is This It",
+        "artist": "The Strokes",
+        "rating": 10,
+        "release_date": "2001-07-30",
+        "genre": "Indie"
+    },
+    {
+        "id": 10,
+        "title": "Barrio Fino",
+        "artist": "Daddy Yankee",
+        "rating": 9,
+        "release_date": "2004-07-13",
+        "genre": "Reggaeton"
+    },
+    {
+        "id": 11,
+        "title": "X 100PRE",
+        "artist": "Bad Bunny",
+        "rating": 9,
+        "release_date": "2018-12-24",
+        "genre": "Reggaeton"
+    },
+    {
+        "id": 12,
+        "title": "The Last Don",
+        "artist": "Don Omar",
+        "rating": 8,
+        "release_date": "2003-06-17",
+        "genre": "Reggaeton"
+    },
+    {
+        "id": 13,
+        "title": "La Voz",
+        "artist": "Héctor Lavoe",
+        "rating": 10,
+        "release_date": "1975-06-01",
+        "genre": "Salsa"
+    },
+    {
+        "id": 14,
+        "title": "Cielo de Tambores",
+        "artist": "Grupo Niche",
+        "rating": 9,
+        "release_date": "1991-05-01",
+        "genre": "Salsa"
+    },
+    {
+        "id": 15,
+        "title": "Siembra",
+        "artist": "Rubén Blades & Willie Colón",
+        "rating": 10,
+        "release_date": "1978-09-07",
+        "genre": "Salsa"
+    },
+    {
+        "id": 16,
+        "title": "To Pimp a Butterfly",
+        "artist": "Kendrick Lamar",
+        "rating": 10,
+        "release_date": "2015-03-15",
+        "genre": "Hip Hop"
+    },
+    {
+        "id": 17,
+        "title": "Take Care",
+        "artist": "Drake",
+        "rating": 9,
+        "release_date": "2011-11-15",
+        "genre": "Hip Hop"
+    },
+    {
+        "id": 18,
+        "title": "The College Dropout",
+        "artist": "Kanye West",
+        "rating": 10,
+        "release_date": "2004-02-10",
+        "genre": "Hip Hop"
+    },
+    {
+        "id": 19,
+        "title": "El Androide",
+        "artist": "El Alfa",
+        "rating": 8,
+        "release_date": "2020-10-09",
+        "genre": "Dembow"
+    },
+    {
+        "id": 20,
+        "title": "El Rey del Dembow",
+        "artist": "Chimbala",
+        "rating": 7,
+        "release_date": "2018-04-20",
+        "genre": "Dembow"
+    },
+    {
+        "id": 21,
+        "title": "Goldy Boyz",
+        "artist": "Rochy RD",
+        "rating": 7,
+        "release_date": "2021-05-14",
+        "genre": "Dembow"
+    },
+    {
+        "id": 22,
+        "title": "The Last",
+        "artist": "Aventura",
+        "rating": 10,
+        "release_date": "2009-06-09",
+        "genre": "Bachata"
+    },
+    {
+        "id": 23,
+        "title": "Fórmula, Vol. 1",
+        "artist": "Romeo Santos",
+        "rating": 9,
+        "release_date": "2011-11-08",
+        "genre": "Bachata"
+    },
+    {
+        "id": 24,
+        "title": "Prince Royce",
+        "artist": "Prince Royce",
+        "rating": 8,
+        "release_date": "2010-03-02",
+        "genre": "Bachata"
+    }
+]
