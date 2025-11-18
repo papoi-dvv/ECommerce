@@ -1,0 +1,110 @@
+.carrito {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.carrito h1 {
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.carrito-items {
+  margin-bottom: 30px;
+}
+
+.carrito-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background: white;
+}
+
+.item-info h3 {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.item-info p {
+  margin: 2px 0;
+  color: #666;
+}
+
+.precio {
+  font-weight: bold;
+  color: #28a745;
+  font-size: 1.1em;
+}
+
+.item-controles {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-controles button {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.item-controles button:hover {
+  background-color: #f8f9fa;
+}
+
+.item-controles button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cantidad {
+  padding: 5px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f8f9fa;
+  min-width: 40px;
+  text-align: center;
+}
+
+.btn-eliminar {
+  background-color: #dc3545 !important;
+  color: white !important;
+  border-color: #dc3545 !important;
+}
+
+.btn-eliminar:hover {
+  background-color: #c82333 !important;
+}
+
+.carrito-total {
+  text-align: center;
+  padding: 20px;
+  border-top: 2px solid #ddd;
+}
+
+.carrito-total h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.btn-comprar {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.btn-comprar:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}

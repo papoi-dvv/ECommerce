@@ -1,0 +1,75 @@
+.home {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.home h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.producto-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.producto-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.producto-card h3 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.producto-card p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.producto-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-detalle, .btn-carrito {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.btn-detalle {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-detalle:hover {
+  background-color: #0056b3;
+}
+
+.btn-carrito {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-carrito:hover {
+  background-color: #1e7e34;
+}
