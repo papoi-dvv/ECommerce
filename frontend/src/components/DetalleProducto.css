@@ -62,6 +62,93 @@
   transition: background-color 0.2s;
 }
 
-.btn-agregar-carrito:hover {
+.btn-agregar-carrito:hover:not(:disabled) {
   background-color: #1e7e34;
+}
+
+.btn-agregar-carrito:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.precio-detalle {
+  font-size: 1.4em;
+  color: #28a745;
+}
+
+.descuento-detalle {
+  background: #dc3545;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7em;
+  margin-left: 10px;
+}
+
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 15px;
+  border: 1px solid #f5c6cb;
+}
+
+.success-message {
+  background: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 15px;
+  border: 1px solid #c3e6cb;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2em;
+  color: #666;
+}
+
+.error {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2em;
+  color: #dc3545;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .detalle-producto {
+    padding: 10px;
+  }
+  
+  .producto-detalle {
+    padding: 20px;
+  }
+  
+  .producto-detalle h1 {
+    font-size: 2em;
+  }
+  
+  .producto-info p {
+    font-size: 1em;
+  }
+  
+  .btn-agregar-carrito {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .producto-detalle h1 {
+    font-size: 1.5em;
+  }
+  
+  .btn-volver {
+    width: 100%;
+    margin-bottom: 15px;
+  }
 }

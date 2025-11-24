@@ -1,62 +1,188 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { useProductos, usePrefetch } from '../hooks/useProductos';
+import { useAgregarAlCarrito } from '../hooks/useCarrito';
 import './Home.css';
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      productos: [],
-      loading: true,
-    };
-  }
+const Home = ({ onVerDetalle }) => {
+  const [busqueda, setBusqueda] = useState('');
+  const [filtroGenero, setFiltroGenero] = useState('');
+  
+  const { data: productos, isLoading, error } = useProductos();
+  const { prefetchProducto } = usePrefetch();
+  const agregarAlCarritoMutation = useAgregarAlCarrito();
 
-  componentDidMount() {
-    fetch('http://localhost:8000/api/albums/')
-      .then(res => res.json())
-      .then(data => this.setState({ productos: data, loading: false }))
-      .catch(error => {
-        console.error('Error:', error);
-        this.setState({ loading: false });
-      });
-  }
+  const handleMouseEnter = (productoId) => {
+    prefetchProducto(productoId);
+  };
 
-  render() {
-    const { productos, loading } = this.state;
+  const handleAgregarCarrito = (producto) => {
+    agregarAlCarritoMutation.mutate({
+      album_id: producto.id,
+      cantidad: 1
+    });
+  };
 
-    return (
-      <div className="home">
-        <h1>Tienda de Música</h1>
-        {loading ? (
-          <p>Cargando productos...</p>
-        ) : (
+  const filtrarProductos = () => {
+    if (!productos) return [];
+    
+    let filtrados = productos;
+
+    if (busqueda) {
+      filtrados = filtrados.filter(p => 
+        p.title.toLowerCase().includes(busqueda.toLowerCase()) ||
+        p.artist.toLowerCase().includes(busqueda.toLowerCase())
+      );
+    }
+
+    if (filtroGenero) {
+      filtrados = filtrados.filter(p => p.genre === filtroGenero);
+    }
+
+    return filtrados;
+  };
+
+  const obtenerPrecio = (producto) => {
+    if (producto.genre === 'Rock') {
+      return (producto.precio * 0.8).toFixed(2);
+    }
+    return producto.precio;
+  };
+
+  const obtenerRecomendados = (productos) => {
+    return productos
+      .filter(p => p.rating >= 8)
+      .slice(0, 3);
+  };
+
+  if (isLoading) return <div className="loading">Cargando productos...</div>;
+  if (error) return <div className="error">Error: {error.message}</div>;
+
+  const productosFiltrados = filtrarProductos();
+  const recomendados = obtenerRecomendados(productosFiltrados);
+  const generos = [...new Set(productos?.map(p => p.genre) || [])];
+
+  const promociones = [
+    { id: 1, texto: '🎵 ¡20% OFF en álbumes de Rock!', activa: true },
+    { id: 2, texto: '🔥 Envío gratis en compras +$50', activa: true }
+  ];
+
+  return (
+    <div className="home">
+      {/* Banner de promociones */}
+      <div className="promociones-banner">
+        {promociones.filter(p => p.activa).map(promo => (
+          <div key={promo.id} className="promocion">{promo.texto}</div>
+        ))}
+      </div>
+
+      <h1>Tienda de Música</h1>
+      
+      {/* Controles de búsqueda y filtros */}
+      <div className="controles">
+        <input
+          type="text"
+          placeholder="Buscar por título o artista..."
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          className="busqueda"
+        />
+        <select 
+          value={filtroGenero} 
+          onChange={(e) => setFiltroGenero(e.target.value)} 
+          className="filtro"
+        >
+          <option value="">Todos los géneros</option>
+          {generos.map(genero => (
+            <option key={genero} value={genero}>{genero}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Productos recomendados */}
+      {recomendados.length > 0 && (
+        <div className="recomendados">
+          <h2>🌟 Recomendados para ti</h2>
           <div className="productos-grid">
-            {productos.map(producto => (
-              <div key={producto.id} className="producto-card">
+            {recomendados.map(producto => (
+              <div 
+                key={`rec-${producto.id}`} 
+                className="producto-card recomendado"
+                onMouseEnter={() => handleMouseEnter(producto.id)}
+              >
+                <div className="badge-recomendado">⭐ TOP</div>
                 <h3>{producto.title}</h3>
                 <p><strong>Artista:</strong> {producto.artist}</p>
                 <p><strong>Género:</strong> {producto.genre}</p>
-                <p><strong>Rating:</strong> {producto.rating}/5</p>
+                <p><strong>Rating:</strong> {producto.rating}/10</p>
+                <p className="precio">${obtenerPrecio(producto)}</p>
+                {producto.genre === 'Rock' && <span className="descuento">20% OFF</span>}
                 <div className="producto-actions">
                   <button 
-                    onClick={() => this.props.onVerDetalle(producto.id)}
+                    onClick={() => onVerDetalle(producto.id)} 
                     className="btn-detalle"
                   >
                     Ver Detalle
                   </button>
                   <button 
-                    onClick={() => this.props.onAgregarCarrito(producto)}
+                    onClick={() => handleAgregarCarrito(producto)}
                     className="btn-carrito"
+                    disabled={producto.stock === 0 || agregarAlCarritoMutation.isPending}
                   >
-                    Agregar al Carrito
+                    {agregarAlCarritoMutation.isPending ? 'Agregando...' : 'Agregar al Carrito'}
                   </button>
                 </div>
               </div>
             ))}
           </div>
-        )}
+        </div>
+      )}
+
+      {/* Todos los productos */}
+      <div className="todos-productos">
+        <h2>Todos los Productos ({productosFiltrados.length})</h2>
+        <div className="productos-grid">
+          {productosFiltrados.map(producto => (
+            <div 
+              key={producto.id} 
+              className="producto-card"
+              onMouseEnter={() => handleMouseEnter(producto.id)}
+            >
+              <h3>{producto.title}</h3>
+              <p><strong>Artista:</strong> {producto.artist}</p>
+              <p><strong>Género:</strong> {producto.genre}</p>
+              <p><strong>Rating:</strong> {producto.rating}/10</p>
+              <p className="precio">${obtenerPrecio(producto)}</p>
+              {producto.genre === 'Rock' && <span className="descuento">20% OFF</span>}
+              <div className="producto-actions">
+                <button 
+                  onClick={() => onVerDetalle(producto.id)} 
+                  className="btn-detalle"
+                >
+                  Ver Detalle
+                </button>
+                <button 
+                  onClick={() => handleAgregarCarrito(producto)}
+                  className="btn-carrito"
+                  disabled={producto.stock === 0 || agregarAlCarritoMutation.isPending}
+                >
+                  {agregarAlCarritoMutation.isPending ? 'Agregando...' : 'Agregar al Carrito'}
+                </button>
+              </div>
+              {producto.stock === 0 && (
+                <div className="sin-stock">Sin Stock</div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-    );
-  }
-}
+      
+      {agregarAlCarritoMutation.error && (
+        <div className="error-message">
+          {agregarAlCarritoMutation.error.message}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default Home;

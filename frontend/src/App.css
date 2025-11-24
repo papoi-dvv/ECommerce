@@ -37,6 +37,48 @@
   background-color: #0056b3;
 }
 
+.btn-admin {
+  background-color: #6f42c1 !important;
+}
+
+.btn-admin:hover {
+  background-color: #5a32a3 !important;
+}
+
 main {
   min-height: calc(100vh - 80px);
+}
+
+/* Responsividad para navegación */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+  
+  .nav-buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .nav-buttons button {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar h2 {
+    font-size: 1.2em;
+  }
+  
+  .nav-buttons {
+    width: 100%;
+  }
+  
+  .nav-buttons button {
+    flex: 1;
+    min-width: 80px;
+  }
 }

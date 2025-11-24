@@ -3,113 +3,114 @@ import "./App.css";
 import Home from "./components/Home";
 import DetalleProducto from "./components/DetalleProducto";
 import Carrito from "./components/Carrito";
+import Inventario from "./components/Inventario";
+import Categorias from "./components/Categorias";
+import ProductosPorCategoria from "./components/ProductosPorCategoria";
+import { useCarrito } from "./hooks/useCarrito";
 
+// Componente funcional para usar hooks
+const AppContent = () => {
+  const [vistaActual, setVistaActual] = React.useState('home');
+  const [productoSeleccionado, setProductoSeleccionado] = React.useState(null);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = React.useState(null);
+  
+  const { data: carrito } = useCarrito();
+
+  const mostrarDetalle = (productoId) => {
+    setVistaActual('detalle');
+    setProductoSeleccionado(productoId);
+  };
+
+  const mostrarCarrito = () => {
+    setVistaActual('carrito');
+  };
+
+  const mostrarInventario = () => {
+    setVistaActual('inventario');
+  };
+
+  const mostrarCategorias = () => {
+    setVistaActual('categorias');
+  };
+
+  const mostrarProductosPorCategoria = (categoriaId, categoriaNombre) => {
+    setCategoriaSeleccionada({ id: categoriaId, nombre: categoriaNombre });
+    setVistaActual('productos-categoria');
+  };
+
+  const volverHome = () => {
+    setVistaActual('home');
+    setProductoSeleccionado(null);
+    setCategoriaSeleccionada(null);
+  };
+
+  const volverCategorias = () => {
+    setVistaActual('categorias');
+    setCategoriaSeleccionada(null);
+  };
+
+  const cantidadTotal = carrito?.cantidad_total || 0;
+
+  return (
+    <div className="App">
+      <nav className="navbar">
+        <h2 onClick={volverHome} style={{cursor: 'pointer'}}>🎵 MusicStore</h2>
+        <div className="nav-buttons">
+          <button onClick={volverHome}>Inicio</button>
+          <button onClick={mostrarCategorias}>Categorías</button>
+          <button onClick={mostrarCarrito}>
+            Carrito ({cantidadTotal})
+          </button>
+          <button onClick={mostrarInventario} className="btn-admin">
+            📦 Inventario
+          </button>
+        </div>
+      </nav>
+
+      <main>
+        {vistaActual === 'home' && (
+          <Home onVerDetalle={mostrarDetalle} />
+        )}
+        
+        {vistaActual === 'detalle' && (
+          <DetalleProducto 
+            productoId={productoSeleccionado}
+            onVolver={volverHome}
+          />
+        )}
+        
+        {vistaActual === 'carrito' && (
+          <Carrito onVolver={volverHome} />
+        )}
+        
+        {vistaActual === 'inventario' && (
+          <Inventario onVolver={volverHome} />
+        )}
+        
+        {vistaActual === 'categorias' && (
+          <Categorias 
+            onSeleccionarCategoria={mostrarProductosPorCategoria}
+            onVolver={volverHome}
+          />
+        )}
+        
+        {vistaActual === 'productos-categoria' && categoriaSeleccionada && (
+          <ProductosPorCategoria 
+            categoriaId={categoriaSeleccionada.id}
+            categoriaNombre={categoriaSeleccionada.nombre}
+            onVerDetalle={mostrarDetalle}
+            onVolver={volverCategorias}
+          />
+        )}
+      </main>
+    </div>
+  );
+};
+
+// Wrapper de clase para mantener compatibilidad
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      vistaActual: 'home',
-      productoSeleccionado: null,
-      carrito: [],
-    };
-  }
-
-  mostrarDetalle = (productoId) => {
-    this.setState({
-      vistaActual: 'detalle',
-      productoSeleccionado: productoId
-    });
-  };
-
-  mostrarCarrito = () => {
-    this.setState({ vistaActual: 'carrito' });
-  };
-
-  volverHome = () => {
-    this.setState({ vistaActual: 'home' });
-  };
-
-  agregarAlCarrito = (producto) => {
-    const { carrito } = this.state;
-    const productoExistente = carrito.find(item => item.id === producto.id);
-    
-    if (productoExistente) {
-      this.setState({
-        carrito: carrito.map(item => 
-          item.id === producto.id 
-            ? { ...item, cantidad: item.cantidad + 1 }
-            : item
-        )
-      });
-    } else {
-      this.setState({
-        carrito: [...carrito, { ...producto, cantidad: 1, precio: 25.99 }]
-      });
-    }
-    
-    alert('Producto agregado al carrito!');
-  };
-
-  actualizarCantidad = (productoId, nuevaCantidad) => {
-    if (nuevaCantidad <= 0) return;
-    
-    this.setState({
-      carrito: this.state.carrito.map(item => 
-        item.id === productoId 
-          ? { ...item, cantidad: nuevaCantidad }
-          : item
-      )
-    });
-  };
-
-  eliminarDelCarrito = (productoId) => {
-    this.setState({
-      carrito: this.state.carrito.filter(item => item.id !== productoId)
-    });
-  };
-
   render() {
-    const { vistaActual, productoSeleccionado, carrito } = this.state;
-
-    return (
-      <div className="App">
-        <nav className="navbar">
-          <h2 onClick={this.volverHome} style={{cursor: 'pointer'}}>🎵 MusicStore</h2>
-          <div className="nav-buttons">
-            <button onClick={this.volverHome}>Inicio</button>
-            <button onClick={this.mostrarCarrito}>
-              Carrito ({carrito.reduce((total, item) => total + item.cantidad, 0)})
-            </button>
-          </div>
-        </nav>
-
-        <main>
-          {vistaActual === 'home' && (
-            <Home 
-              onVerDetalle={this.mostrarDetalle}
-              onAgregarCarrito={this.agregarAlCarrito}
-            />
-          )}
-          
-          {vistaActual === 'detalle' && (
-            <DetalleProducto 
-              productoId={productoSeleccionado}
-              onVolver={this.volverHome}
-              onAgregarCarrito={this.agregarAlCarrito}
-            />
-          )}
-          
-          {vistaActual === 'carrito' && (
-            <Carrito 
-              carrito={carrito}
-              onVolver={this.volverHome}
-              onActualizarCantidad={this.actualizarCantidad}
-              onEliminarItem={this.eliminarDelCarrito}
-            />
-          )}
-        </main>
-      </div>
-    );
+    return <AppContent />;
   }
 }
 

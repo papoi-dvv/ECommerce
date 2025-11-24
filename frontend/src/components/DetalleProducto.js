@@ -1,62 +1,78 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useProducto } from '../hooks/useProductos';
+import { useAgregarAlCarrito } from '../hooks/useCarrito';
 import './DetalleProducto.css';
 
-class DetalleProducto extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      producto: null,
-      loading: true,
-    };
-  }
+const DetalleProducto = ({ productoId, onVolver }) => {
+  const { data: producto, isLoading, error } = useProducto(productoId);
+  const agregarAlCarritoMutation = useAgregarAlCarrito();
 
-  componentDidMount() {
-    const { productoId } = this.props;
-    fetch(`http://localhost:8000/api/albums/${productoId}/`)
-      .then(res => res.json())
-      .then(data => this.setState({ producto: data, loading: false }))
-      .catch(error => {
-        console.error('Error:', error);
-        this.setState({ loading: false });
-      });
-  }
+  const handleAgregarCarrito = () => {
+    agregarAlCarritoMutation.mutate({
+      album_id: producto.id,
+      cantidad: 1
+    });
+  };
 
-  render() {
-    const { producto, loading } = this.state;
+  if (isLoading) return <div className="loading">Cargando...</div>;
+  if (error) return <div className="error">Error: {error.message}</div>;
+  if (!producto) return <div className="error">Producto no encontrado</div>;
 
-    if (loading) return <p>Cargando...</p>;
-    if (!producto) return <p>Producto no encontrado</p>;
+  const precioFinal = producto.genre === 'Rock' 
+    ? (producto.precio * 0.8).toFixed(2)
+    : producto.precio;
 
-    return (
-      <div className="detalle-producto">
-        <button 
-          onClick={this.props.onVolver}
-          className="btn-volver"
-        >
-          ← Volver
-        </button>
-        
-        <div className="producto-detalle">
-          <h1>{producto.title}</h1>
-          <div className="producto-info">
-            <p><strong>Artista:</strong> {producto.artist}</p>
-            <p><strong>Género:</strong> {producto.genre}</p>
-            <p><strong>Rating:</strong> {producto.rating}/5</p>
-            <p><strong>Fecha de Lanzamiento:</strong> {producto.release_date}</p>
-          </div>
-          
-          <div className="producto-acciones">
-            <button 
-              onClick={() => this.props.onAgregarCarrito(producto)}
-              className="btn-agregar-carrito"
-            >
-              Agregar al Carrito
-            </button>
-          </div>
+  return (
+    <div className="detalle-producto">
+      <button onClick={onVolver} className="btn-volver">
+        ← Volver
+      </button>
+      
+      <div className="producto-detalle">
+        <h1>{producto.title}</h1>
+        <div className="producto-info">
+          <p><strong>Artista:</strong> {producto.artist}</p>
+          <p><strong>Género:</strong> {producto.genre}</p>
+          <p><strong>Rating:</strong> {producto.rating}/5</p>
+          <p><strong>Fecha de Lanzamiento:</strong> {producto.release_date}</p>
+          <p><strong>Stock disponible:</strong> {producto.stock}</p>
+          <p className="precio-detalle">
+            <strong>Precio:</strong> ${precioFinal}
+            {producto.genre === 'Rock' && (
+              <span className="descuento-detalle">20% OFF</span>
+            )}
+          </p>
         </div>
+        
+        <div className="producto-acciones">
+          <button 
+            onClick={handleAgregarCarrito}
+            className="btn-agregar-carrito"
+            disabled={producto.stock === 0 || agregarAlCarritoMutation.isPending}
+          >
+            {agregarAlCarritoMutation.isPending 
+              ? 'Agregando al Carrito...' 
+              : producto.stock === 0 
+                ? 'Sin Stock' 
+                : 'Agregar al Carrito'
+            }
+          </button>
+        </div>
+        
+        {agregarAlCarritoMutation.error && (
+          <div className="error-message">
+            {agregarAlCarritoMutation.error.message}
+          </div>
+        )}
+        
+        {agregarAlCarritoMutation.isSuccess && (
+          <div className="success-message">
+            ¡Producto agregado al carrito exitosamente!
+          </div>
+        )}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default DetalleProducto;

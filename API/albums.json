@@ -5,7 +5,10 @@
         "artist": "Dua Lipa",
         "rating": 9,
         "release_date": "2020-03-27",
-        "genre": "Pop"
+        "genre": "Pop",
+        "stock": 7,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 2,
@@ -13,7 +16,10 @@
         "artist": "Michael Jackson",
         "rating": 10,
         "release_date": "1982-11-30",
-        "genre": "Pop"
+        "genre": "Pop",
+        "stock": 4,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 3,
@@ -21,7 +27,10 @@
         "artist": "Madonna",
         "rating": 9,
         "release_date": "1989-03-21",
-        "genre": "Pop"
+        "genre": "Pop",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 4,
@@ -29,7 +38,10 @@
         "artist": "Queen",
         "rating": 10,
         "release_date": "1975-11-21",
-        "genre": "Rock"
+        "genre": "Rock",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 5,
@@ -37,7 +49,10 @@
         "artist": "Nirvana",
         "rating": 10,
         "release_date": "1991-09-24",
-        "genre": "Rock"
+        "genre": "Rock",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 6,
@@ -45,7 +60,10 @@
         "artist": "The Beatles",
         "rating": 10,
         "release_date": "1969-09-26",
-        "genre": "Rock"
+        "genre": "Rock",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 7,
@@ -53,7 +71,10 @@
         "artist": "Arctic Monkeys",
         "rating": 9,
         "release_date": "2013-09-09",
-        "genre": "Indie"
+        "genre": "Indie",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 8,
@@ -61,7 +82,10 @@
         "artist": "Tame Impala",
         "rating": 9,
         "release_date": "2015-07-17",
-        "genre": "Indie"
+        "genre": "Indie",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 9,
@@ -69,7 +93,10 @@
         "artist": "The Strokes",
         "rating": 10,
         "release_date": "2001-07-30",
-        "genre": "Indie"
+        "genre": "Indie",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 10,
@@ -77,7 +104,10 @@
         "artist": "Daddy Yankee",
         "rating": 9,
         "release_date": "2004-07-13",
-        "genre": "Reggaeton"
+        "genre": "Reggaeton",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 11,
@@ -85,7 +115,10 @@
         "artist": "Bad Bunny",
         "rating": 9,
         "release_date": "2018-12-24",
-        "genre": "Reggaeton"
+        "genre": "Reggaeton",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 12,
@@ -93,7 +126,10 @@
         "artist": "Don Omar",
         "rating": 8,
         "release_date": "2003-06-17",
-        "genre": "Reggaeton"
+        "genre": "Reggaeton",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 13,
@@ -101,7 +137,10 @@
         "artist": "Héctor Lavoe",
         "rating": 10,
         "release_date": "1975-06-01",
-        "genre": "Salsa"
+        "genre": "Salsa",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 14,
@@ -109,7 +148,10 @@
         "artist": "Grupo Niche",
         "rating": 9,
         "release_date": "1991-05-01",
-        "genre": "Salsa"
+        "genre": "Salsa",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 15,
@@ -117,7 +159,10 @@
         "artist": "Rubén Blades & Willie Colón",
         "rating": 10,
         "release_date": "1978-09-07",
-        "genre": "Salsa"
+        "genre": "Salsa",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 16,
@@ -125,7 +170,10 @@
         "artist": "Kendrick Lamar",
         "rating": 10,
         "release_date": "2015-03-15",
-        "genre": "Hip Hop"
+        "genre": "Hip Hop",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 17,
@@ -133,7 +181,10 @@
         "artist": "Drake",
         "rating": 9,
         "release_date": "2011-11-15",
-        "genre": "Hip Hop"
+        "genre": "Hip Hop",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 18,
@@ -141,7 +192,10 @@
         "artist": "Kanye West",
         "rating": 10,
         "release_date": "2004-02-10",
-        "genre": "Hip Hop"
+        "genre": "Hip Hop",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 19,
@@ -149,7 +203,10 @@
         "artist": "El Alfa",
         "rating": 8,
         "release_date": "2020-10-09",
-        "genre": "Dembow"
+        "genre": "Dembow",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 20,
@@ -157,7 +214,10 @@
         "artist": "Chimbala",
         "rating": 7,
         "release_date": "2018-04-20",
-        "genre": "Dembow"
+        "genre": "Dembow",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 21,
@@ -165,7 +225,10 @@
         "artist": "Rochy RD",
         "rating": 7,
         "release_date": "2021-05-14",
-        "genre": "Dembow"
+        "genre": "Dembow",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 22,
@@ -173,7 +236,10 @@
         "artist": "Aventura",
         "rating": 10,
         "release_date": "2009-06-09",
-        "genre": "Bachata"
+        "genre": "Bachata",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 23,
@@ -181,7 +247,10 @@
         "artist": "Romeo Santos",
         "rating": 9,
         "release_date": "2011-11-08",
-        "genre": "Bachata"
+        "genre": "Bachata",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     },
     {
         "id": 24,
@@ -189,6 +258,273 @@
         "artist": "Prince Royce",
         "rating": 8,
         "release_date": "2010-03-02",
-        "genre": "Bachata"
+        "genre": "Bachata",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 25,
+        "title": "Club Future Nostalgia",
+        "artist": "Dua Lipa",
+        "rating": 8,
+        "release_date": "2020-08-28",
+        "genre": "Pop",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 26,
+        "title": "Bad",
+        "artist": "Michael Jackson",
+        "rating": 10,
+        "release_date": "1987-08-31",
+        "genre": "Pop",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 27,
+        "title": "True Blue",
+        "artist": "Madonna",
+        "rating": 9,
+        "release_date": "1986-06-30",
+        "genre": "Pop",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 28,
+        "title": "News of the World",
+        "artist": "Queen",
+        "rating": 10,
+        "release_date": "1977-10-28",
+        "genre": "Rock",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 29,
+        "title": "In Utero",
+        "artist": "Nirvana",
+        "rating": 9,
+        "release_date": "1993-09-21",
+        "genre": "Rock",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 30,
+        "title": "Sgt. Pepper's Lonely Hearts Club Band",
+        "artist": "The Beatles",
+        "rating": 10,
+        "release_date": "1967-06-01",
+        "genre": "Rock",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 31,
+        "title": "Whatever People Say I Am, That's What I'm Not",
+        "artist": "Arctic Monkeys",
+        "rating": 10,
+        "release_date": "2006-01-23",
+        "genre": "Indie",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 32,
+        "title": "Lonerism",
+        "artist": "Tame Impala",
+        "rating": 9,
+        "release_date": "2012-10-05",
+        "genre": "Indie",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 33,
+        "title": "Room on Fire",
+        "artist": "The Strokes",
+        "rating": 9,
+        "release_date": "2003-10-28",
+        "genre": "Rock",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 34,
+        "title": "Talento de Barrio",
+        "artist": "Daddy Yankee",
+        "rating": 8,
+        "release_date": "2008-08-12",
+        "genre": "Reggaeton",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 35,
+        "title": "YHLQMDLG",
+        "artist": "Bad Bunny",
+        "rating": 10,
+        "release_date": "2020-02-29",
+        "genre": "Reggaeton",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 36,
+        "title": "King of Kings",
+        "artist": "Don Omar",
+        "rating": 9,
+        "release_date": "2006-05-23",
+        "genre": "Reggaeton",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 37,
+        "title": "Comedia",
+        "artist": "Héctor Lavoe",
+        "rating": 9,
+        "release_date": "1978-01-01",
+        "genre": "Salsa",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 38,
+        "title": "No Hay Quinto Malo",
+        "artist": "Grupo Niche",
+        "rating": 9,
+        "release_date": "1984-07-01",
+        "genre": "Salsa",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 39,
+        "title": "Canciones del Solar de los Aburridos",
+        "artist": "Rubén Blades & Willie Colón",
+        "rating": 10,
+        "release_date": "1981-08-01",
+        "genre": "Salsa",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 40,
+        "title": "good kid, m.A.A.d city",
+        "artist": "Kendrick Lamar",
+        "rating": 10,
+        "release_date": "2012-10-22",
+        "genre": "Hip Hop",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 41,
+        "title": "Nothing Was the Same",
+        "artist": "Drake",
+        "rating": 9,
+        "release_date": "2013-09-24",
+        "genre": "Hip Hop",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 42,
+        "title": "Graduation",
+        "artist": "Kanye West",
+        "rating": 10,
+        "release_date": "2007-09-11",
+        "genre": "Hip Hop",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 43,
+        "title": "Sabiduría",
+        "artist": "El Alfa",
+        "rating": 8,
+        "release_date": "2021-12-17",
+        "genre": "Dembow",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 44,
+        "title": "De Chimbala a Chimbala",
+        "artist": "Chimbala",
+        "rating": 7,
+        "release_date": "2016-03-12",
+        "genre": "Dembow",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 45,
+        "title": "Alócate",
+        "artist": "Rochy RD",
+        "rating": 7,
+        "release_date": "2018-09-18",
+        "genre": "Dembow",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 46,
+        "title": "God’s Project",
+        "artist": "Aventura",
+        "rating": 9,
+        "release_date": "2005-04-26",
+        "genre": "Bachata",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 47,
+        "title": "Fórmula, Vol. 2",
+        "artist": "Romeo Santos",
+        "rating": 9,
+        "release_date": "2014-02-25",
+        "genre": "Bachata",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
+    },
+    {
+        "id": 48,
+        "title": "Phase II",
+        "artist": "Prince Royce",
+        "rating": 8,
+        "release_date": "2012-04-10",
+        "genre": "Bachata",
+        "stock": 10,
+        "precio": "25.99",
+        "categoria": null
     }
 ]

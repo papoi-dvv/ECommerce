@@ -1,72 +1,122 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useCarrito, useActualizarCantidad, useEliminarDelCarrito, useProcesarCompra } from '../hooks/useCarrito';
 import './Carrito.css';
 
-class Carrito extends Component {
-  calcularTotal = () => {
-    return this.props.carrito.reduce((total, item) => {
-      return total + (item.cantidad * (item.precio || 25.99));
-    }, 0).toFixed(2);
+const Carrito = ({ onVolver }) => {
+  const { data: carrito, isLoading, error } = useCarrito();
+  const actualizarCantidadMutation = useActualizarCantidad();
+  const eliminarDelCarritoMutation = useEliminarDelCarrito();
+  const procesarCompraMutation = useProcesarCompra();
+
+  const handleActualizarCantidad = (id, nuevaCantidad) => {
+    if (nuevaCantidad <= 0) return;
+    
+    actualizarCantidadMutation.mutate({
+      id,
+      cantidad: nuevaCantidad
+    });
   };
 
-  render() {
-    const { carrito, onActualizarCantidad, onEliminarItem, onVolver } = this.props;
+  const handleEliminar = (id) => {
+    eliminarDelCarritoMutation.mutate(id);
+  };
 
-    return (
-      <div className="carrito">
-        <button onClick={onVolver} className="btn-volver">
-          ← Volver
-        </button>
-        
-        <h1>Carrito de Compras</h1>
-        
-        {carrito.length === 0 ? (
+  const handleProcesarCompra = () => {
+    if (window.confirm('¿Confirmar compra? Esto reducirá el stock de los productos.')) {
+      procesarCompraMutation.mutate();
+    }
+  };
+
+  if (isLoading) return <div className="loading">Cargando carrito...</div>;
+  if (error) return <div className="error">Error: {error.message}</div>;
+
+  const items = carrito?.items || [];
+  const total = carrito?.total || 0;
+
+  return (
+    <div className="carrito">
+      <button onClick={onVolver} className="btn-volver">
+        ← Volver
+      </button>
+      
+      <h1>🛒 Carrito de Compras</h1>
+      
+      {items.length === 0 ? (
+        <div className="carrito-vacio">
           <p>Tu carrito está vacío</p>
-        ) : (
-          <div>
-            <div className="carrito-items">
-              {carrito.map(item => (
-                <div key={item.id} className="carrito-item">
-                  <div className="item-info">
-                    <h3>{item.title}</h3>
-                    <p>{item.artist}</p>
-                    <p className="precio">${item.precio || 25.99}</p>
-                  </div>
-                  
-                  <div className="item-controles">
-                    <button 
-                      onClick={() => onActualizarCantidad(item.id, item.cantidad - 1)}
-                      disabled={item.cantidad <= 1}
-                    >
-                      -
-                    </button>
-                    <span className="cantidad">{item.cantidad}</span>
-                    <button 
-                      onClick={() => onActualizarCantidad(item.id, item.cantidad + 1)}
-                    >
-                      +
-                    </button>
-                    <button 
-                      onClick={() => onEliminarItem(item.id)}
-                      className="btn-eliminar"
-                    >
-                      Eliminar
-                    </button>
-                  </div>
+          <button onClick={onVolver} className="btn-seguir-comprando">
+            Seguir Comprando
+          </button>
+        </div>
+      ) : (
+        <div>
+          <div className="carrito-items">
+            {items.map(item => (
+              <div key={item.id} className="carrito-item">
+                <div className="item-info">
+                  <h3>{item.album.title}</h3>
+                  <p>{item.album.artist}</p>
+                  <p className="precio">${item.album.precio}</p>
                 </div>
-              ))}
-            </div>
-            
-            <div className="carrito-total">
-              <h2>Total: ${this.calcularTotal()}</h2>
-              <button className="btn-comprar" disabled>
-                Proceder al Pago (Próximamente)
-              </button>
-            </div>
+                
+                <div className="item-controles">
+                  <button 
+                    onClick={() => handleActualizarCantidad(item.id, item.cantidad - 1)}
+                    disabled={item.cantidad <= 1 || actualizarCantidadMutation.isPending}
+                    className="btn-cantidad"
+                  >
+                    -
+                  </button>
+                  <span className="cantidad">{item.cantidad}</span>
+                  <button 
+                    onClick={() => handleActualizarCantidad(item.id, item.cantidad + 1)}
+                    disabled={actualizarCantidadMutation.isPending}
+                    className="btn-cantidad"
+                  >
+                    +
+                  </button>
+                  <button 
+                    onClick={() => handleEliminar(item.id)}
+                    disabled={eliminarDelCarritoMutation.isPending}
+                    className="btn-eliminar"
+                  >
+                    {eliminarDelCarritoMutation.isPending ? 'Eliminando...' : 'Eliminar'}
+                  </button>
+                </div>
+                
+                <div className="item-subtotal">
+                  <strong>${item.subtotal}</strong>
+                </div>
+              </div>
+            ))}
           </div>
-        )}
-      </div>
-    );
-  }
-}
+          
+          {(actualizarCantidadMutation.error || eliminarDelCarritoMutation.error || procesarCompraMutation.error) && (
+            <div className="error-message">
+              {actualizarCantidadMutation.error?.message || eliminarDelCarritoMutation.error?.message || procesarCompraMutation.error?.message}
+            </div>
+          )}
+          
+          {procesarCompraMutation.isSuccess && (
+            <div className="success-message">
+              ¡Compra procesada exitosamente! El stock ha sido actualizado.
+            </div>
+          )}
+          
+          <div className="carrito-total">
+            <h2>Total: ${total}</h2>
+            <button 
+              className="btn-comprar" 
+              onClick={handleProcesarCompra}
+              disabled={procesarCompraMutation.isPending || items.length === 0}
+            >
+              {procesarCompraMutation.isPending ? 'Procesando...' : 'Proceder al Pago'}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default Carrito;
