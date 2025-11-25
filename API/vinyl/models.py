@@ -1,45 +1,110 @@
 # vinyl/models.py
 from django.db import models
 
+class Usuario(models.Model):
+    username = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=128)
+    image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
+    VIP = models.BooleanField(default=False) # Si compra más de 5 álbumes, se vuelve VIP
+
+    def __str__(self):
+        return self.username
+
+class Album(models.Model):
+    NN = 'NN'
+    # --- Rock y derivados ---
+    ROCK = 'Rock'
+    INDIE_ROCK = 'Indie Rock'
+    INDIE_POP = 'Indie Pop'
+    ALTERNATIVE_ROCK = 'Alternative Rock'
+    METAL = 'Metal'
+    PUNK = 'Punk'
+
+# --- Pop y derivados ---
+    POP = 'Pop'
+    JPOP = 'J-pop'
+    KPOP = 'K-pop'
+
+# --- Jazz / Blues / Soul ---
+    JAZZ = 'Jazz'
+    BLUES = 'Blues'
+    DISCO = 'Disco'
+
+# --- Música Latina ---
+    SALSA = 'Salsa'
+    BACHATA = 'Bachata'
+    REGGAETON = 'Reggaeton'
+    CUMBIA = 'Cumbia'
+    DEMBOW = 'Dembow'
+    BOLERO = 'Bolero'
+
+# --- Electrónica ---
+    ELECTRONICA = 'Electronica'
+    TECHNO = 'Techno'
+
+# --- Hip Hop / Reggae ---
+    HIP_HOP = 'Hip Hop'
+    REGGAE = 'Reggae'
+    TRAP = 'Trap'
+
+    GENRE_CHOICES = [
+        (NN, 'No definido'),
+        # --- Rock y derivados ---
+        (ROCK, 'Rock'),
+        (INDIE_ROCK, 'Indie Rock'),
+        (INDIE_POP, 'Indie Pop'),
+        (ALTERNATIVE_ROCK, 'Alternative Rock'),
+        (METAL, 'Metal'),
+        (PUNK, 'Punk'),
+
+        # --- Pop y derivados ---
+        (POP, 'Pop'),
+        (KPOP, 'K-pop'),
+        (JPOP, 'J-pop'),
+
+        # --- Jazz / Blues / Soul ---
+        (JAZZ, 'Jazz'),
+        (BLUES, 'Blues'),
+        (DISCO, 'Disco'),
+
+        # --- Música Latina ---
+        (SALSA, 'Salsa'),
+        (BACHATA, 'Bachata'),
+        (REGGAETON, 'Reggaeton'),
+        (CUMBIA, 'Cumbia'),
+        (DEMBOW, 'Dembow'),
+        (BOLERO, 'Bolero'),
+
+        # --- Electrónica ---
+        (ELECTRONICA, 'Electronica'),
+        (TECHNO, 'Techno'),
+
+        # --- Hip Hop / Reggae ---
+        (HIP_HOP, 'Hip Hop'),
+        (REGGAE, 'Reggae'),
+        (TRAP, 'Trap'),
+    ]
+    
+    BESTSELLER = models.BooleanField(default=False)
+    title = models.CharField(max_length=200)
+    artist = models.CharField(max_length=200)
+    rating = models.IntegerField(default=0)
+    release_date = models.DateField()
+    genre = models.CharField(max_length=100, choices=GENRE_CHOICES, default=NN)
+    stock = models.IntegerField(default=0)
+    precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    image = models.ImageField(upload_to='album_images/', null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.title} by {self.artist}"
+
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
     descripcion = models.TextField(blank=True)
     
     def __str__(self):
         return self.nombre
-
-class Album(models.Model):
-    POP = 'Pop'
-    ROCK = 'Rock'
-    INDIE = 'Indie'
-    REGGAETON = 'Reggaeton'
-    SALSA = 'Salsa'
-    HIP_HOP = 'Hip Hop'
-    DEMBOW = 'Dembow'
-    BACHATA = 'Bachata'
-
-    GENRE_CHOICES = [
-        (POP, 'Pop'),
-        (ROCK, 'Rock'),
-        (INDIE, 'Indie'),
-        (REGGAETON, 'Reggaeton'),
-        (SALSA, 'Salsa'),
-        (HIP_HOP, 'Hip Hop'),
-        (DEMBOW, 'Dembow'),
-        (BACHATA, 'Bachata'),
-    ]
-
-    title = models.CharField(max_length=200)
-    artist = models.CharField(max_length=200)
-    rating = models.IntegerField(default=0)
-    release_date = models.DateField()
-    genre = models.CharField(max_length=20, choices=GENRE_CHOICES)
-    stock = models.IntegerField(default=10)
-    precio = models.DecimalField(max_digits=10, decimal_places=2, default=25.99)
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.title} by {self.artist}"
 
 class CarritoItem(models.Model):
     session_id = models.CharField(max_length=100)

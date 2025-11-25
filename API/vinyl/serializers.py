@@ -1,6 +1,6 @@
 # vynyl/serializers.py
 from rest_framework import serializers
-from .models import Album, Categoria, CarritoItem
+from .models import *
 
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:

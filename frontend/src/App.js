@@ -8,7 +8,6 @@ import Categorias from "./components/Categorias";
 import ProductosPorCategoria from "./components/ProductosPorCategoria";
 import { useCarrito } from "./hooks/useCarrito";
 
-// Componente funcional para usar hooks
 const AppContent = () => {
   const [vistaActual, setVistaActual] = React.useState('home');
   const [productoSeleccionado, setProductoSeleccionado] = React.useState(null);
@@ -107,7 +106,6 @@ const AppContent = () => {
   );
 };
 
-// Wrapper de clase para mantener compatibilidad
 class App extends Component {
   render() {
     return <AppContent />;

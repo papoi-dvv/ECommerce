@@ -142,3 +142,7 @@ SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SAMESITE = 'Lax'
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
+
+# MEDIA settings
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

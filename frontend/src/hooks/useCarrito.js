@@ -5,7 +5,7 @@ export const useCarrito = () => {
   return useQuery({
     queryKey: ['carrito'],
     queryFn: fetchCarrito,
-    staleTime: 0, // Siempre fresh para el carrito
+    staleTime: 0,
   });
 };
 

@@ -10,4 +10,4 @@ urlpatterns = [
     path('carrito/', views.CarritoView.as_view(), name='carrito'),
     path('carrito/checkout/', views.CarritoView.as_view(), name='carrito-checkout'),
     path('carrito/<int:pk>/', views.CarritoItemView.as_view(), name='carrito-item'),
-]
+] 
