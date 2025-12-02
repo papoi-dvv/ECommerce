@@ -4,81 +4,200 @@
 }
 
 .navbar {
-  background-color: #343a40;
-  color: white;
-  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.navbar h2 {
-  margin: 0;
-  color: #fff;
-}
-
-.nav-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.nav-buttons button {
-  background-color: #007bff;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: transform 0.2s ease;
 }
 
-.nav-buttons button:hover {
-  background-color: #0056b3;
+.nav-brand:hover {
+  transform: scale(1.05);
 }
 
-.btn-admin {
-  background-color: #6f42c1 !important;
+.brand-icon {
+  font-size: 2rem;
 }
 
-.btn-admin:hover {
-  background-color: #5a32a3 !important;
+.brand-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.nav-pills {
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.1);
+  padding: 0.5rem;
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+}
+
+.nav-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 20px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-pill:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+.nav-pill.active {
+  background: rgba(255,255,255,0.25);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.pill-icon {
+  font-size: 1.1rem;
+}
+
+.cart-pill {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4757;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.admin-pill {
+  background: rgba(255,193,7,0.3);
+}
+
+.admin-pill:hover {
+  background: rgba(255,193,7,0.5);
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.username {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.vip-badge {
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  color: #333;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.logout-btn, .login-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.logout-btn:hover, .login-btn:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
 }
 
 main {
   min-height: calc(100vh - 80px);
 }
 
-/* Responsividad para navegación */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
-    gap: 15px;
-    padding: 15px;
+    gap: 1rem;
+    padding: 1rem;
   }
   
-  .nav-buttons {
+  .nav-pills {
     flex-wrap: wrap;
     justify-content: center;
   }
   
-  .nav-buttons button {
-    font-size: 14px;
-    padding: 6px 12px;
+  .nav-pill {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .user-info {
+    align-items: center;
   }
 }
 
 @media (max-width: 480px) {
-  .navbar h2 {
-    font-size: 1.2em;
+  .brand-text {
+    font-size: 1.2rem;
   }
   
-  .nav-buttons {
+  .nav-pills {
     width: 100%;
   }
   
-  .nav-buttons button {
+  .nav-pill {
     flex: 1;
     min-width: 80px;
+    justify-content: center;
   }
 }

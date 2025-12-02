@@ -4,10 +4,63 @@
   margin: 0 auto;
 }
 
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .inventario h1 {
   color: #333;
+  margin: 0;
+}
+
+.btn-consola {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-consola:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
   margin-bottom: 30px;
-  text-align: center;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.tab {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+  transition: all 0.3s;
+}
+
+.tab:hover {
+  color: #333;
+  background: #f5f5f5;
+}
+
+.tab.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+  font-weight: 600;
 }
 
 .resumen-inventario {
@@ -116,6 +169,11 @@ th {
 
 .btn-reabastecer:hover {
   background-color: #1e7e34;
+}
+
+.rating {
+  font-weight: 600;
+  color: #ffc107;
 }
 
 /* Responsividad */

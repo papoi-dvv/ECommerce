@@ -2,23 +2,23 @@ import React from 'react';
 import { useCarrito, useActualizarCantidad, useEliminarDelCarrito, useProcesarCompra } from '../hooks/useCarrito';
 import './Carrito.css';
 
-const Carrito = ({ onVolver }) => {
+const Carrito = ({ onVolver, onCheckout }) => {
   const { data: carrito, isLoading, error } = useCarrito();
   const actualizarCantidadMutation = useActualizarCantidad();
   const eliminarDelCarritoMutation = useEliminarDelCarrito();
   const procesarCompraMutation = useProcesarCompra();
 
-  const handleActualizarCantidad = (id, nuevaCantidad) => {
+  const handleActualizarCantidad = (item, nuevaCantidad) => {
     if (nuevaCantidad <= 0) return;
     
     actualizarCantidadMutation.mutate({
-      id,
+      id: item.id,
       cantidad: nuevaCantidad
     });
   };
 
-  const handleEliminar = (id) => {
-    eliminarDelCarritoMutation.mutate(id);
+  const handleEliminar = (item) => {
+    eliminarDelCarritoMutation.mutate(item.id);
   };
 
   const handleProcesarCompra = () => {
@@ -56,12 +56,17 @@ const Carrito = ({ onVolver }) => {
                 <div className="item-info">
                   <h3>{item.album.title}</h3>
                   <p>{item.album.artist}</p>
-                  <p className="precio">${item.album.precio}</p>
+                  <p className="precio">
+                    {item.album.precio_original && item.album.precio !== item.album.precio_original && (
+                      <span className="precio-original">${item.album.precio_original}</span>
+                    )}
+                    ${item.album.precio}
+                  </p>
                 </div>
                 
                 <div className="item-controles">
                   <button 
-                    onClick={() => handleActualizarCantidad(item.id, item.cantidad - 1)}
+                    onClick={() => handleActualizarCantidad(item, item.cantidad - 1)}
                     disabled={item.cantidad <= 1 || actualizarCantidadMutation.isPending}
                     className="btn-cantidad"
                   >
@@ -69,14 +74,14 @@ const Carrito = ({ onVolver }) => {
                   </button>
                   <span className="cantidad">{item.cantidad}</span>
                   <button 
-                    onClick={() => handleActualizarCantidad(item.id, item.cantidad + 1)}
+                    onClick={() => handleActualizarCantidad(item, item.cantidad + 1)}
                     disabled={actualizarCantidadMutation.isPending}
                     className="btn-cantidad"
                   >
                     +
                   </button>
                   <button 
-                    onClick={() => handleEliminar(item.id)}
+                    onClick={() => handleEliminar(item)}
                     disabled={eliminarDelCarritoMutation.isPending}
                     className="btn-eliminar"
                   >
@@ -107,10 +112,10 @@ const Carrito = ({ onVolver }) => {
             <h2>Total: ${total}</h2>
             <button 
               className="btn-comprar" 
-              onClick={handleProcesarCompra}
-              disabled={procesarCompraMutation.isPending || items.length === 0}
+              onClick={onCheckout}
+              disabled={items.length === 0}
             >
-              {procesarCompraMutation.isPending ? 'Procesando...' : 'Proceder al Pago'}
+              Proceder al Pago
             </button>
           </div>
         </div>

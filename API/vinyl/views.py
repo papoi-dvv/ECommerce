@@ -3,12 +3,13 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from django.contrib.auth import login, logout
 from django.db import transaction
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 
-from .models import Album, Categoria, CarritoItem
-from .serializers import AlbumSerializer, CategoriaSerializer, CarritoItemSerializer
+
+from .models import Album, Categoria, CarritoItem, Compra, CompraItem
+from .serializers import *
 
 class IndexView(APIView):
     def get(self, request):
@@ -16,12 +17,16 @@ class IndexView(APIView):
         return Response(context)
 
 class CategoriaView(APIView):
+    permission_classes = [AllowAny]
+    
     def get(self, request):
         categorias = Categoria.objects.all()
         serializer = CategoriaSerializer(categorias, many=True)
         return Response(serializer.data)
 
 class AlbumView(APIView):
+    permission_classes = [AllowAny]
+    
     def get(self, request):
         categoria_id = request.query_params.get('categoria')
         if categoria_id:
@@ -47,6 +52,8 @@ class AlbumView(APIView):
 
     
 class AlbumDetailView(APIView):
+    permission_classes = [AllowAny]
+    
     def get_object(self, pk):
         try:
             return Album.objects.get(pk=pk)
@@ -76,8 +83,9 @@ class AlbumDetailView(APIView):
         album.delete()
         return Response(status=204)
 
-@method_decorator(csrf_exempt, name='dispatch')
 class CarritoView(APIView):
+    permission_classes = [AllowAny]
+    
     def get_session_id(self, request):
         session_id = request.session.session_key
         if not session_id:
@@ -88,13 +96,28 @@ class CarritoView(APIView):
     def get(self, request):
         session_id = self.get_session_id(request)
         items = CarritoItem.objects.filter(session_id=session_id)
-        serializer = CarritoItemSerializer(items, many=True)
+        serializer = CarritoItemSerializer(items, many=True, context={'request': request})
         
-        total = sum(item.cantidad * item.album.precio for item in items)
+        es_vip = False
+        if request.user.is_authenticated:
+            try:
+                usuario = Usuario.objects.get(username=request.user.username)
+                es_vip = usuario.VIP
+            except Usuario.DoesNotExist:
+                pass
+        
+        total = 0
+        for item in items:
+            precio = item.album.precio
+            if es_vip:
+                precio = precio * 0.7
+            elif item.album.genre == 'Rock':
+                precio = precio * 0.8
+            total += item.cantidad * precio
         
         return Response({
             'items': serializer.data,
-            'total': total,
+            'total': float(total),
             'cantidad_total': sum(item.cantidad for item in items)
         })
 
@@ -133,26 +156,44 @@ class CarritoView(APIView):
         session_id = self.get_session_id(request)
         items = CarritoItem.objects.filter(session_id=session_id)
         
-        # Reducir stock de cada producto
+        es_vip = False
+        if request.user.is_authenticated:
+            try:
+                usuario = Usuario.objects.get(username=request.user.username)
+                es_vip = usuario.VIP
+            except Usuario.DoesNotExist:
+                pass
+        
         with transaction.atomic():
+            total = 0
             for item in items:
                 album = item.album
                 if album.stock >= item.cantidad:
                     album.stock -= item.cantidad
                     album.save()
+                    
+                    precio = album.precio
+                    if es_vip:
+                        precio = precio * 0.7
+                    elif album.genre == 'Rock':
+                        precio = precio * 0.8
+                    total += item.cantidad * precio
                 else:
                     return Response(
                         {'error': f'Stock insuficiente para {album.title}'}, 
                         status=400
                     )
             
-            # Eliminar items del carrito
             items.delete()
         
-        return Response({'message': 'Compra procesada exitosamente'}, status=200)
+        return Response({
+            'message': 'Compra procesada exitosamente',
+            'total': float(total)
+        }, status=200)
 
-@method_decorator(csrf_exempt, name='dispatch')
 class CarritoItemView(APIView):
+    permission_classes = [AllowAny]
+    
     def get_session_id(self, request):
         session_id = request.session.session_key
         if not session_id:

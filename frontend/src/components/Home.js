@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useProductos, usePrefetch } from '../hooks/useProductos';
 import { useAgregarAlCarrito } from '../hooks/useCarrito';
+import { useUserProfile } from '../hooks/useAuth';
 import './Home.css';
 
 const Home = ({ onVerDetalle }) => {
@@ -10,6 +11,7 @@ const Home = ({ onVerDetalle }) => {
   const { data: productos, isLoading, error } = useProductos();
   const { prefetchProducto } = usePrefetch();
   const agregarAlCarritoMutation = useAgregarAlCarrito();
+  const { data: userProfile } = useUserProfile();
 
   const handleMouseEnter = (productoId) => {
     prefetchProducto(productoId);
@@ -42,10 +44,18 @@ const Home = ({ onVerDetalle }) => {
   };
 
   const obtenerPrecio = (producto) => {
-    if (producto.genre === 'Rock') {
-      return (producto.precio * 0.8).toFixed(2);
-    }
-    return producto.precio;
+    const esVIP = userProfile?.es_vip;
+    const descuentoRock = producto.genre === 'Rock' ? 0.2 : 0;
+    const descuentoVIP = esVIP ? 0.3 : 0;
+    const descuentoTotal = Math.max(descuentoRock, descuentoVIP);
+    return (producto.precio * (1 - descuentoTotal)).toFixed(2);
+  };
+
+  const obtenerDescuento = (producto) => {
+    const esVIP = userProfile?.es_vip;
+    if (esVIP) return { texto: '✨ 30% OFF VIP', clase: 'vip' };
+    if (producto.genre === 'Rock') return { texto: '20% OFF', clase: '' };
+    return null;
   };
 
   const obtenerRecomendados = (productos) => {
@@ -61,9 +71,11 @@ const Home = ({ onVerDetalle }) => {
   const recomendados = obtenerRecomendados(productosFiltrados);
   const generos = [...new Set(productos?.map(p => p.genre) || [])];
 
+  const esVIP = userProfile?.es_vip;
   const promociones = [
-    { id: 1, texto: '🎵 ¡20% OFF en álbumes de Rock!', activa: true },
-    { id: 2, texto: '🔥 Envío gratis en compras +$50', activa: true }
+    { id: 1, texto: '🎵 ¡20% OFF en álbumes de Rock!', activa: !esVIP },
+    { id: 2, texto: '✨ ¡30% OFF en TODO por ser VIP!', activa: esVIP },
+    { id: 3, texto: '🔥 Envío gratis en compras +$50', activa: true }
   ];
 
   return (
@@ -115,7 +127,11 @@ const Home = ({ onVerDetalle }) => {
                 <p><strong>Género:</strong> {producto.genre}</p>
                 <p><strong>Rating:</strong> {producto.rating}/10</p>
                 <p className="precio">${obtenerPrecio(producto)}</p>
-                {producto.genre === 'Rock' && <span className="descuento">20% OFF</span>}
+                {obtenerDescuento(producto) && (
+                  <span className={`descuento ${obtenerDescuento(producto).clase}`}>
+                    {obtenerDescuento(producto).texto}
+                  </span>
+                )}
                 <div className="producto-actions">
                   <button 
                     onClick={() => onVerDetalle(producto.id)} 
@@ -152,7 +168,11 @@ const Home = ({ onVerDetalle }) => {
               <p><strong>Género:</strong> {producto.genre}</p>
               <p><strong>Rating:</strong> {producto.rating}/10</p>
               <p className="precio">${obtenerPrecio(producto)}</p>
-              {producto.genre === 'Rock' && <span className="descuento">20% OFF</span>}
+              {obtenerDescuento(producto) && (
+                <span className={`descuento ${obtenerDescuento(producto).clase}`}>
+                  {obtenerDescuento(producto).texto}
+                </span>
+              )}
               <div className="producto-actions">
                 <button 
                   onClick={() => onVerDetalle(producto.id)} 

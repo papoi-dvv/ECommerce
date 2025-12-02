@@ -1,5 +1,6 @@
 # vinyl/models.py
 from django.db import models
+from django.contrib.auth.models import User
 
 class Usuario(models.Model):
     username = models.CharField(max_length=150, unique=True)
@@ -7,6 +8,21 @@ class Usuario(models.Model):
     password = models.CharField(max_length=128)
     image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     VIP = models.BooleanField(default=False) # Si compra más de 5 álbumes, se vuelve VIP
+
+    def actualizar_estado_vip(self):
+        from django.contrib.auth.models import User
+        try:
+            user = User.objects.get(username=self.username)
+            total_albums = CompraItem.objects.filter(compra__usuario=user).aggregate(
+                total=models.Sum('cantidad')
+            )['total'] or 0
+            
+            nuevo_vip = total_albums >= 5
+            if self.VIP != nuevo_vip:
+                self.VIP = nuevo_vip
+                self.save()
+        except User.DoesNotExist:
+            pass
 
     def __str__(self):
         return self.username
@@ -95,6 +111,7 @@ class Album(models.Model):
     stock = models.IntegerField(default=0)
     precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     image = models.ImageField(upload_to='album_images/', null=True, blank=True)
+    categoria = models.ForeignKey('Categoria', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"{self.title} by {self.artist}"
@@ -117,3 +134,34 @@ class CarritoItem(models.Model):
     
     def __str__(self):
         return f"{self.cantidad}x {self.album.title}"
+
+class Compra(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(auto_now_add=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+    stripe_payment_id = models.CharField(max_length=200, null=True, blank=True)
+    
+    def __str__(self):
+        return f"Compra {self.id} - {self.usuario.username}"
+
+class CompraItem(models.Model):
+    compra = models.ForeignKey(Compra, related_name='items', on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    cantidad = models.IntegerField()
+    precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    def __str__(self):
+        return f"{self.cantidad}x {self.album.title}"
+
+# Signal para actualizar VIP automáticamente
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save, sender=Compra)
+def actualizar_vip_usuario(sender, instance, created, **kwargs):
+    if created:
+        try:
+            usuario = Usuario.objects.get(username=instance.usuario.username)
+            usuario.actualizar_estado_vip()
+        except Usuario.DoesNotExist:
+            pass

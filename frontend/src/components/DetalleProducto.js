@@ -1,11 +1,13 @@
 import React from 'react';
 import { useProducto } from '../hooks/useProductos';
 import { useAgregarAlCarrito } from '../hooks/useCarrito';
+import { useUserProfile } from '../hooks/useAuth';
 import './DetalleProducto.css';
 
 const DetalleProducto = ({ productoId, onVolver }) => {
   const { data: producto, isLoading, error } = useProducto(productoId);
   const agregarAlCarritoMutation = useAgregarAlCarrito();
+  const { data: userProfile } = useUserProfile();
 
   const handleAgregarCarrito = () => {
     agregarAlCarritoMutation.mutate({
@@ -18,9 +20,11 @@ const DetalleProducto = ({ productoId, onVolver }) => {
   if (error) return <div className="error">Error: {error.message}</div>;
   if (!producto) return <div className="error">Producto no encontrado</div>;
 
-  const precioFinal = producto.genre === 'Rock' 
-    ? (producto.precio * 0.8).toFixed(2)
-    : producto.precio;
+  const esVIP = userProfile?.es_vip;
+  const descuentoRock = producto.genre === 'Rock' ? 0.2 : 0;
+  const descuentoVIP = esVIP ? 0.3 : 0;
+  const descuentoTotal = Math.max(descuentoRock, descuentoVIP);
+  const precioFinal = (producto.precio * (1 - descuentoTotal)).toFixed(2);
 
   return (
     <div className="detalle-producto">
@@ -37,8 +41,15 @@ const DetalleProducto = ({ productoId, onVolver }) => {
           <p><strong>Fecha de Lanzamiento:</strong> {producto.release_date}</p>
           <p><strong>Stock disponible:</strong> {producto.stock}</p>
           <p className="precio-detalle">
-            <strong>Precio:</strong> ${precioFinal}
-            {producto.genre === 'Rock' && (
+            <strong>Precio:</strong> 
+            {descuentoTotal > 0 && (
+              <span className="precio-original">${producto.precio}</span>
+            )}
+            ${precioFinal}
+            {esVIP && (
+              <span className="descuento-detalle vip">✨ 30% OFF VIP</span>
+            )}
+            {!esVIP && producto.genre === 'Rock' && (
               <span className="descuento-detalle">20% OFF</span>
             )}
           </p>

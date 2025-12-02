@@ -84,3 +84,69 @@ export const procesarCompra = async () => {
   }
   return response.json();
 };
+
+// Autenticación
+export const registrarUsuario = async (userData) => {
+  const response = await fetch(`${API_BASE}/auth/register/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(userData),
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(Object.values(error).flat().join(', '));
+  }
+  return response.json();
+};
+
+export const loginUsuario = async (credentials) => {
+  const response = await fetch(`${API_BASE}/auth/login/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(credentials),
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(Object.values(error).flat().join(', '));
+  }
+  return response.json();
+};
+
+export const logoutUsuario = async () => {
+  const response = await fetch(`${API_BASE}/auth/logout/`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+  if (!response.ok) throw new Error('Error al cerrar sesión');
+  return response.json();
+};
+
+export const fetchHistorialCompras = async () => {
+  const response = await fetch(`${API_BASE}/historial/`, {
+    credentials: 'include'
+  });
+  if (!response.ok) throw new Error('Error al cargar historial');
+  return response.json();
+};
+
+export const procesarPago = async (stripePaymentId) => {
+  const response = await fetch(`${API_BASE}/checkout/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({ stripe_payment_id: stripePaymentId }),
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al procesar el pago');
+  }
+  return response.json();
+};

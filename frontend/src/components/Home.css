@@ -121,6 +121,16 @@
   margin-left: 10px;
 }
 
+.descuento.vip {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  animation: pulseVip 2s infinite;
+}
+
+@keyframes pulseVip {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
 .producto-actions {
   display: flex;
   gap: 8px;

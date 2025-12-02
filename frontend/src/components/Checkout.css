@@ -1,0 +1,168 @@
+.checkout-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.checkout-form {
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.checkout-form h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.order-summary {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 6px;
+  margin-bottom: 30px;
+}
+
+.order-summary h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.order-total {
+  padding: 15px 0 0 0;
+  font-size: 1.2em;
+  text-align: right;
+  color: #28a745;
+}
+
+.payment-section {
+  margin-bottom: 30px;
+}
+
+.payment-section h3 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.card-element {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: white;
+}
+
+.btn-pay {
+  width: 100%;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-pay:hover:not(:disabled) {
+  background-color: #1e7e34;
+}
+
+.btn-pay:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.payment-methods {
+  margin-top: 20px;
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.payment-methods p {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.payment-icons {
+  color: #333;
+  font-size: 14px;
+}
+
+.payment-options {
+  margin: 20px 0;
+}
+
+.payment-option {
+  display: block;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.payment-option:hover {
+  background-color: #f8f9fa;
+}
+
+.payment-option input[type="radio"] {
+  margin-right: 10px;
+}
+
+.card-form {
+  margin-top: 15px;
+}
+
+.card-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.card-row {
+  display: flex;
+  gap: 10px;
+}
+
+.card-row input {
+  flex: 1;
+}
+
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 4px;
+  margin-top: 15px;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .checkout-container {
+    padding: 10px;
+  }
+  
+  .checkout-form {
+    padding: 20px;
+  }
+  
+  .order-item {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

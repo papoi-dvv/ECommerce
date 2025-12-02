@@ -85,6 +85,23 @@
   margin-left: 10px;
 }
 
+.descuento-detalle.vip {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  animation: pulseVip 2s infinite;
+}
+
+@keyframes pulseVip {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.precio-original {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.8em;
+  margin-right: 10px;
+}
+
 .error-message {
   background: #f8d7da;
   color: #721c24;

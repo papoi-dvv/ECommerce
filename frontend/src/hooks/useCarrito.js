@@ -71,30 +71,7 @@ export const useActualizarCantidad = () => {
   
   return useMutation({
     mutationFn: actualizarCantidadCarrito,
-    onMutate: async ({ id, cantidad }) => {
-      await queryClient.cancelQueries({ queryKey: ['carrito'] });
-      
-      const previousCarrito = queryClient.getQueryData(['carrito']);
-      
-      queryClient.setQueryData(['carrito'], (old) => {
-        if (!old) return old;
-        
-        return {
-          ...old,
-          items: old.items.map(item => 
-            item.id === id 
-              ? { ...item, cantidad, subtotal: cantidad * item.album.precio }
-              : item
-          )
-        };
-      });
-      
-      return { previousCarrito };
-    },
-    onError: (err, variables, context) => {
-      queryClient.setQueryData(['carrito'], context.previousCarrito);
-    },
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['carrito'] });
     },
   });
@@ -105,26 +82,7 @@ export const useEliminarDelCarrito = () => {
   
   return useMutation({
     mutationFn: eliminarDelCarrito,
-    onMutate: async (id) => {
-      await queryClient.cancelQueries({ queryKey: ['carrito'] });
-      
-      const previousCarrito = queryClient.getQueryData(['carrito']);
-      
-      queryClient.setQueryData(['carrito'], (old) => {
-        if (!old) return old;
-        
-        return {
-          ...old,
-          items: old.items.filter(item => item.id !== id)
-        };
-      });
-      
-      return { previousCarrito };
-    },
-    onError: (err, id, context) => {
-      queryClient.setQueryData(['carrito'], context.previousCarrito);
-    },
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['carrito'] });
     },
   });

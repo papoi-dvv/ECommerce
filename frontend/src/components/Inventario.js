@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './Inventario.css';
+import HistorialCompras from './HistorialCompras';
+import UsuariosVIP from './UsuariosVIP';
 
 class Inventario extends Component {
   constructor(props) {
@@ -7,6 +9,7 @@ class Inventario extends Component {
     this.state = {
       productos: [],
       loading: true,
+      tabActiva: 'inventario',
       editando: null,
       nuevoProducto: {
         title: '',
@@ -24,14 +27,12 @@ class Inventario extends Component {
   }
 
   cargarProductos = () => {
-    fetch('http://localhost:8000/api/albums/')
+    fetch('http://localhost:8000/api/albums/', {
+      credentials: 'include'
+    })
       .then(res => res.json())
       .then(data => {
-        const productosConStock = data.map(p => ({
-          ...p,
-          stock: Math.floor(Math.random() * 50) + 1
-        }));
-        this.setState({ productos: productosConStock, loading: false });
+        this.setState({ productos: data, loading: false });
       })
       .catch(error => {
         console.error('Error:', error);
@@ -40,11 +41,26 @@ class Inventario extends Component {
   };
 
   actualizarStock = (id, nuevoStock) => {
-    this.setState({
-      productos: this.state.productos.map(p =>
-        p.id === id ? { ...p, stock: nuevoStock } : p
-      )
-    });
+    fetch(`http://localhost:8000/api/albums/${id}/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        ...this.state.productos.find(p => p.id === id),
+        stock: nuevoStock
+      }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          productos: this.state.productos.map(p =>
+            p.id === id ? data : p
+          )
+        });
+      })
+      .catch(error => console.error('Error:', error));
   };
 
   obtenerEstadoStock = (stock) => {
@@ -55,9 +71,9 @@ class Inventario extends Component {
   };
 
   render() {
-    const { productos, loading } = this.state;
+    const { productos, loading, tabActiva } = this.state;
 
-    if (loading) return <p>Cargando inventario...</p>;
+    if (loading && tabActiva === 'inventario') return <p>Cargando inventario...</p>;
 
     const totalProductos = productos.length;
     const sinStock = productos.filter(p => p.stock === 0).length;
@@ -69,8 +85,41 @@ class Inventario extends Component {
           ← Volver
         </button>
         
-        <h1>📦 Gestión de Inventario</h1>
+        <div className="admin-header">
+          <h1>📦 Panel de Administración</h1>
+          <a 
+            href="http://127.0.0.1:8000/admin/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="btn-consola"
+          >
+            🖥️ Ir a Consola
+          </a>
+        </div>
         
+        <div className="tabs">
+          <button 
+            className={`tab ${tabActiva === 'inventario' ? 'active' : ''}`}
+            onClick={() => this.setState({ tabActiva: 'inventario' })}
+          >
+            📦 Inventario
+          </button>
+          <button 
+            className={`tab ${tabActiva === 'historial' ? 'active' : ''}`}
+            onClick={() => this.setState({ tabActiva: 'historial' })}
+          >
+            📋 Historial de Compras
+          </button>
+          <button 
+            className={`tab ${tabActiva === 'vip' ? 'active' : ''}`}
+            onClick={() => this.setState({ tabActiva: 'vip' })}
+          >
+            ✨ Usuarios VIP
+          </button>
+        </div>
+        
+        {tabActiva === 'inventario' && (
+          <>
         <div className="resumen-inventario">
           <div className="stat-card">
             <h3>{totalProductos}</h3>
@@ -93,6 +142,8 @@ class Inventario extends Component {
                 <th>Producto</th>
                 <th>Artista</th>
                 <th>Género</th>
+                <th>Precio</th>
+                <th>Rating</th>
                 <th>Stock</th>
                 <th>Estado</th>
                 <th>Acciones</th>
@@ -106,6 +157,10 @@ class Inventario extends Component {
                     <td>{producto.title}</td>
                     <td>{producto.artist}</td>
                     <td>{producto.genre}</td>
+                    <td>${producto.precio}</td>
+                    <td>
+                      <span className="rating">⭐ {producto.rating}</span>
+                    </td>
                     <td>
                       <input
                         type="number"
@@ -134,6 +189,16 @@ class Inventario extends Component {
             </tbody>
           </table>
         </div>
+          </>
+        )}
+        
+        {tabActiva === 'historial' && (
+          <HistorialCompras onVolver={null} />
+        )}
+        
+        {tabActiva === 'vip' && (
+          <UsuariosVIP />
+        )}
       </div>
     );
   }
